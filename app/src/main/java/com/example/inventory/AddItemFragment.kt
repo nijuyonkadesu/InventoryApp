@@ -35,7 +35,7 @@ class AddItemFragment : Fragment() {
 
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
     private val viewModel: InventoryViewModel by activityViewModels{
-        InvenventoryViewModelFactory(
+        InventoryViewModelFactory(
             (activity?.application as InventoryApplication).database.itemDao()
         )
     }

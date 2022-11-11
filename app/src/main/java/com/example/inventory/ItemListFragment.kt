@@ -32,7 +32,7 @@ import com.example.inventory.databinding.ItemListFragmentBinding
 class ItemListFragment : Fragment() {
 
     private val viewModel: InventoryViewModel by activityViewModels {
-        InvenventoryViewModelFactory(
+        InventoryViewModelFactory(
             (activity?.application as InventoryApplication).database.itemDao()
         )
     }
@@ -51,7 +51,10 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ItemListAdapter{ }
+        val adapter = ItemListAdapter{
+            val action = ItemListFragmentDirections.actionItemListFragmentToItemDetailFragment(it.id)
+            findNavController().navigate(action)
+        }
         viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
             items.let {
                 adapter.submitList(it)
