@@ -24,6 +24,13 @@ class InventoryViewModel(private val itemDao: ItemDao): ViewModel(){
         val newItem = getNewItemEntry(itemName, itemPrice, itemCount)
         insertItem(newItem)
     }
+    // validation before adding the data into database
+    fun isEntryValid(itemName: String, itemPrice: String, itemCount: String): Boolean {
+        if (itemName.isBlank() || itemPrice.isBlank() || itemCount.isBlank()) {
+            return false
+        }
+        return true
+    }
 }
 class InvenventoryViewModelFactory(private val itemDao: ItemDao): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
