@@ -53,6 +53,7 @@ class ItemDetailFragment : Fragment() {
             sellItem.isEnabled = isStockAvailable(item)
             sellItem.setOnClickListener{ viewModel.sellItem(item) }
             deleteItem.setOnClickListener { showConfirmationDialog() }
+            editItem.setOnClickListener{ editItem() }
         }
     }
     private fun isStockAvailable(item: Item): Boolean {
@@ -109,5 +110,12 @@ class ItemDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    private fun editItem(){
+        val action = ItemDetailFragmentDirections.actionItemDetailFragmentToAddItemFragment(
+            getString(R.string.edit_fragment_title),
+            item.id
+        )
+        this.findNavController().navigate(action)
     }
 }
