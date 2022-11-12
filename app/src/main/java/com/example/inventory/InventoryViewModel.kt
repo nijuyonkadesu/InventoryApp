@@ -35,6 +35,21 @@ class InventoryViewModel(private val itemDao: ItemDao): ViewModel(){
     fun retrieveItem(id: Int): LiveData<Item> {
         return itemDao.getItem(id).asLiveData()
     }
+    private fun updateItem(item: Item) {
+        viewModelScope.launch{
+            itemDao.update(item)
+        }
+    }
+    fun sellItem(item: Item) {
+        if (item.quantityInStock > 0) {
+            updateItem(item.copy(quantityInStock = item.quantityInStock - 1))
+        }
+    }
+    fun deleteItem(item: Item) {
+        viewModelScope.launch {
+            itemDao.delete(item)
+        }
+    }
 }
 class InventoryViewModelFactory(private val itemDao: ItemDao): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -50,7 +50,13 @@ class ItemDetailFragment : Fragment() {
             itemName.text = item.itemName
             itemPrice.text = item.getFormattedPrice()
             itemCount.text = item.quantityInStock.toString()
+            sellItem.isEnabled = isStockAvailable(item)
+            sellItem.setOnClickListener{ viewModel.sellItem(item) }
+            deleteItem.setOnClickListener { showConfirmationDialog() }
         }
+    }
+    private fun isStockAvailable(item: Item): Boolean {
+        return (item.quantityInStock > 0)
     }
 
     override fun onCreateView(
@@ -94,6 +100,7 @@ class ItemDetailFragment : Fragment() {
      */
     private fun deleteItem() {
         findNavController().navigateUp()
+        viewModel.deleteItem(item)
     }
 
     /**
